@@ -6,4 +6,10 @@
   <color name="success_color">#43A047</color>
   <color name="black_text">#212121</color>
   <color name="grey_text">#757575</color>
+
+  <color name="biometricprompt_color_primary">#3776E9</color>
+  <color name="biometricprompt_color_ffffff">#ffffff</color>
+  <color name="biometricprompt_color_333333">#333333</color>
+  <color name="biometricprompt_color_82C785">#82C785</color>
+  <color name="biometricprompt_color_FF5555">#FF5555</color>
 </resources>

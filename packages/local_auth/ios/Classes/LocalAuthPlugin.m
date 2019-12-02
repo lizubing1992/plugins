@@ -8,6 +8,7 @@
 @implementation FLTLocalAuthPlugin {
   NSDictionary *lastCallArgs;
   FlutterResult lastResult;
+    LAContext *context;
 }
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar {
   FlutterMethodChannel *channel =
@@ -23,6 +24,8 @@
     [self authenticateWithBiometrics:call.arguments withFlutterResult:result];
   } else if ([@"getAvailableBiometrics" isEqualToString:call.method]) {
     [self getAvailableBiometrics:result];
+  } else if ([@"cancelBiometrics" isEqualToString:call.method]){
+    [self cancelBiometrics:result];
   } else {
     result(FlutterMethodNotImplemented);
   }
@@ -65,7 +68,11 @@
 }
 
 - (void)getAvailableBiometrics:(FlutterResult)result {
-  LAContext *context = [[LAContext alloc] init];
+    
+    if (!context) {
+        context = [[LAContext alloc] init];
+    }
+    
   NSError *authError = nil;
   NSMutableArray<NSString *> *biometrics = [[NSMutableArray<NSString *> alloc] init];
   if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
@@ -89,7 +96,16 @@
 
 - (void)authenticateWithBiometrics:(NSDictionary *)arguments
                  withFlutterResult:(FlutterResult)result {
-  LAContext *context = [[LAContext alloc] init];
+
+  if (context){
+     if (@available(iOS 9.0, *)) {
+        [context invalidate];
+     }
+     context = nil;
+  }
+
+  context = [[LAContext alloc] init];
+
   NSError *authError = nil;
   lastCallArgs = nil;
   lastResult = nil;
@@ -97,6 +113,16 @@
 
   if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
                            error:&authError]) {
+      
+    if (@available(iOS 13.0, *)) {
+        [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
+                                  localizedReason:arguments[@"localizedReason"]
+                                            reply:^(BOOL success, NSError * _Nullable error){
+            
+        }];
+          
+    }
+      
     [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
             localizedReason:arguments[@"localizedReason"]
                       reply:^(BOOL success, NSError *error) {
@@ -155,6 +181,23 @@
                              details:authError.domain]);
 }
 
+
+-(void) cancelBiometrics:(FlutterResult)result  {
+    
+    if (context) {
+        
+        if (@available(iOS 9.0, *)) {
+            [context invalidate];
+        }
+        
+        context = nil;
+    }
+    
+    result(@YES);
+    
+}
+
+
 #pragma mark - AppDelegate
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -164,3 +207,4 @@
 }
 
 @end
+
