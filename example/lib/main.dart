@@ -8,6 +8,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:local_auth/auth_strings.dart';
 import 'package:local_auth/local_auth.dart';
 
 void main() {
@@ -24,7 +25,6 @@ class _MyAppState extends State<MyApp> {
   bool _canCheckBiometrics;
   List<BiometricType> _availableBiometrics;
   String _authorized = 'Not Authorized';
-  bool _isAuthenticating = false;
 
   Future<void> _checkBiometrics() async {
     bool canCheckBiometrics;
@@ -57,31 +57,29 @@ class _MyAppState extends State<MyApp> {
   Future<void> _authenticate() async {
     bool authenticated = false;
     try {
-      setState(() {
-        _isAuthenticating = true;
-        _authorized = 'Authenticating';
-      });
       authenticated = await auth.authenticateWithBiometrics(
-          localizedReason: 'Scan your fingerprint to authenticate',
-          useErrorDialogs: true,
-          stickyAuth: true);
-      setState(() {
-        _isAuthenticating = false;
-        _authorized = 'Authenticating';
-      });
+        localizedReason: '请验证您的指纹',
+        useErrorDialogs: true,
+        stickyAuth: true,
+        androidAuthStrings: AndroidAuthMessages(
+          signInTitle: "指纹验证",
+          cancelButton: "取消",
+          fingerprintHint: "指纹验证",
+        ),
+        iOSAuthStrings: IOSAuthMessages(
+          cancelButton: "取消",
+          goToSettingsDescription: "请录入您的指纹或 Face ID",
+          goToSettingsButton: "去设置",
+        ),
+      );
     } on PlatformException catch (e) {
       print(e);
     }
     if (!mounted) return;
 
-    final String message = authenticated ? 'Authorized' : 'Not Authorized';
     setState(() {
-      _authorized = message;
+      _authorized = authenticated ? 'Authorized' : 'Not Authorized';
     });
-  }
-
-  void _cancelAuthentication() {
-    auth.stopAuthentication();
   }
 
   @override
@@ -108,9 +106,8 @@ class _MyAppState extends State<MyApp> {
                 ),
                 Text('Current State: $_authorized\n'),
                 RaisedButton(
-                  child: Text(_isAuthenticating ? 'Cancel' : 'Authenticate'),
-                  onPressed:
-                      _isAuthenticating ? _cancelAuthentication : _authenticate,
+                  child: const Text('Authenticate'),
+                  onPressed: _authenticate,
                 )
               ])),
     ));
