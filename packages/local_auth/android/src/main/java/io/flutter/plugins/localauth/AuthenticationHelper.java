@@ -150,6 +150,13 @@ class AuthenticationHelper
         fingerprintVerifyManager= builder.build();
     }
 
+    /** Cancels the fingerprint authentication. */
+    void stopAuthentication() {
+//        if (biometricPrompt != null) {
+//            biometricPrompt.cancelAuthentication();
+//            biometricPrompt = null;
+//        }
+    }
 
     /**
      * Stops the fingerprint listener.
