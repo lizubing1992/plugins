@@ -7,6 +7,7 @@ import android.hardware.biometrics.BiometricPrompt;
 import android.os.Build;
 import android.os.CancellationSignal;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
@@ -36,7 +37,6 @@ public class FingerprintImplForAndrP implements IFingerprint {
 
     @Override
     public void authenticate(Activity context, VerificationDialogStyleBean verificationDialogStyleBean, FingerprintCallback callback) {
-
         this.fingerprintCallback = callback;
 
         /*
@@ -50,6 +50,7 @@ public class FingerprintImplForAndrP implements IFingerprint {
                 verificationDialogStyleBean.getCancelBtnText();
         BiometricPrompt.Builder builder = new BiometricPrompt.Builder(context)
                 .setTitle(title)
+                .setSubtitle(title)
                 .setNegativeButton(cancelText, new Executor() {
                     @Override
                     public void execute(Runnable command) {

@@ -65,6 +65,7 @@ class _MyAppState extends State<MyApp> {
           signInTitle: "指纹验证",
           cancelButton: "取消",
           fingerprintHint: "指纹验证",
+          enableAndroidP: true,
         ),
         iOSAuthStrings: IOSAuthMessages(
           cancelButton: "取消",

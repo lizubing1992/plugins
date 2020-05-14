@@ -91,7 +91,7 @@ class AuthenticationHelper
         builder.title((String) call.argument("signInTitle"));
         builder.subTitle((String) call.argument("fingerprintHint"));
         builder.callback(fingerprintCallback);
-
+        builder.enableAndroidP((Boolean) call.argument("enableAndroidP"));
         activity.getApplication().registerActivityLifecycleCallbacks(this);
     }
 

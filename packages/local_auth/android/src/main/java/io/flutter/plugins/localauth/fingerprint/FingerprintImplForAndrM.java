@@ -3,11 +3,11 @@ package io.flutter.plugins.localauth.fingerprint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
+import android.text.TextUtils;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
 import androidx.core.os.CancellationSignal;
-
 
 import io.flutter.plugins.localauth.R;
 import io.flutter.plugins.localauth.fingerprint.bean.VerificationDialogStyleBean;
@@ -53,10 +53,10 @@ public class FingerprintImplForAndrM implements IFingerprint {
         //调起指纹验证
         fingerprintManagerCompat.authenticate(cryptoObject, 0, cancellationSignal, authenticationCallback, null);
         //指纹验证框
-        if(fingerprintDialog==null){
+        if (fingerprintDialog == null) {
             fingerprintDialog = FingerprintDialog.newInstance().setActionListener(dialogActionListener).setDialogStyle(bean);
         }
-        if(fingerprintDialog!=null &&  fingerprintDialog.getDialog()!=null
+        if (fingerprintDialog != null && fingerprintDialog.getDialog() != null
                 && fingerprintDialog.getDialog().isShowing()) {
             //dialog is showing so do something
         } else {
@@ -71,7 +71,7 @@ public class FingerprintImplForAndrM implements IFingerprint {
     public boolean cancelAuthenticate() {
         if (cancellationSignal != null && !cancellationSignal.isCanceled())
             cancellationSignal.cancel();
-        if(fingerprintDialog!=null){
+        if (fingerprintDialog != null) {
             fingerprintDialog.dismiss();
         }
         return true;
@@ -132,7 +132,11 @@ public class FingerprintImplForAndrM implements IFingerprint {
         @Override
         public void onAuthenticationHelp(int helpMsgId, CharSequence helpString) {
             super.onAuthenticationHelp(helpMsgId, helpString);
-            fingerprintDialog.setTip(helpString.toString(), R.color.biometricprompt_color_FF5555);
+            if (TextUtils.isEmpty(helpString.toString())) {
+                fingerprintDialog.setNormalTip("请验证您在系统录入的指纹", R.color.black);
+            } else {
+                fingerprintDialog.setTip(helpString.toString(), R.color.biometricprompt_color_FF5555);
+            }
         }
 
         @Override

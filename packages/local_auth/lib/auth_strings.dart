@@ -23,6 +23,7 @@ class AndroidAuthMessages {
     this.fingerprintRequiredTitle,
     this.goToSettingsButton,
     this.goToSettingsDescription,
+    this.enableAndroidP,
   });
 
   final String fingerprintHint;
@@ -33,9 +34,10 @@ class AndroidAuthMessages {
   final String fingerprintRequiredTitle;
   final String goToSettingsButton;
   final String goToSettingsDescription;
+  final bool enableAndroidP;
 
-  Map<String, String> get args {
-    return <String, String>{
+  Map<String, dynamic> get args {
+    return <String, dynamic>{
       'fingerprintHint': fingerprintHint ?? androidFingerprintHint,
       'fingerprintNotRecognized':
           fingerprintNotRecognized ?? androidFingerprintNotRecognized,
@@ -47,6 +49,7 @@ class AndroidAuthMessages {
       'goToSetting': goToSettingsButton ?? goToSettings,
       'goToSettingDescription':
           goToSettingsDescription ?? androidGoToSettingsDescription,
+      'enableAndroidP': enableAndroidP ?? true,
     };
   }
 }

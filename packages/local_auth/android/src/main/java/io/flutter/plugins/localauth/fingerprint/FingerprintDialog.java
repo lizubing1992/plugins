@@ -144,7 +144,6 @@ public class FingerprintDialog extends DialogFragment {
 
     /**
      * 根据指纹验证的结果更新tip的文字内容和文字颜色
-     *
      * @param tip
      * @param colorId
      */
@@ -153,6 +152,17 @@ public class FingerprintDialog extends DialogFragment {
         tvTip.setTextColor(getResources().getColor(colorId));
         tvTip.startAnimation(shakeAnimation);
         shakeVibrator.vibrate(new long[] { 0, 500 }, -1);
+    }
+
+
+    /**
+     * 根据指纹验证的结果更新tip的文字内容和文字颜色
+     * @param tip
+     * @param colorId
+     */
+    public void setNormalTip(String tip, @ColorRes int colorId) {
+        tvTip.setText(tip);
+        tvTip.setTextColor(getResources().getColor(colorId));
     }
 
     public interface OnDialogActionListener {

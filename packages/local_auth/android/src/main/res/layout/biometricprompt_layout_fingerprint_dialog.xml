@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -13,33 +12,39 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivFingerprint"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="24dp"
-            app:srcCompat="@drawable/biometricprompt_ic_finger_print"
+            android:src="@drawable/ic_finger"
             tools:ignore="VectorDrawableCompat" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="验证触控ID"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tvTip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginTop="4dp"
             android:gravity="center"
             android:text="@string/biometricprompt_verify_fingerprint"
-            android:textColor="@color/biometricprompt_color_333333"
-            android:textSize="17sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#EEEFF3" />
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="16dp"
+            android:paddingBottom="18dp">
 
             <TextView
                 android:id="@+id/tvCancel"
@@ -55,7 +60,8 @@
                 android:id="@+id/view"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="#e7e7e8" />
+                android:background="#e7e7e8"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tvUsepwd"
@@ -65,7 +71,8 @@
                 android:gravity="center"
                 android:text="@string/biometricprompt_verify_usepwd"
                 android:textColor="@color/biometricprompt_color_primary"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                android:visibility="gone" />
 
         </LinearLayout>
 
